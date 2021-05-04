@@ -12,12 +12,13 @@ namespace src
         Player _currentPlayer = X;
 
         public Subject<Player> CurrentPlayer { get; internal set; }
-
+        public Subject<Player> Winner { get; internal set; }
         public Subject<Request> Messages { get; internal set; }
 
         public TicTacToeRx()
         {
             CurrentPlayer = new Subject<Player>();
+            Winner = new Subject<Player>();
             Messages = new Subject<Request>();
 
             Messages.Subscribe(MessageHandler);
@@ -25,12 +26,20 @@ namespace src
 
         private void MessageHandler(Request request)
         {
+            if (request == Request.Winner)
+                Winner.OnNext(None);
+
             CurrentPlayer.OnNext(_currentPlayer);
         }
 
         public void RequestCurrentPlayer()
         {
-            Messages.OnNext(Request.CurrentPlayer);
+            Messages.OnNext(Request.Winner);
+        }
+
+        public void RequestWinner()
+        {
+            Messages.OnNext(Request.Winner);
         }
 
         public void Place(Position position)
@@ -56,6 +65,6 @@ namespace src
 
     public enum Request
     {
-        CurrentPlayer
+        Winner
     }
 }

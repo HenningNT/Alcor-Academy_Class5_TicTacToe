@@ -54,5 +54,16 @@ namespace test
 
             Assert.AreEqual(X, currentPlayer);
         }
+
+        [Test]
+        public void NotHaveAWinnerAtStart()
+        {
+            Player winner = X;
+            _ticTacToeRx.Winner.Subscribe(wnr => winner = wnr);
+
+            _ticTacToeRx.RequestWinner();
+
+            Assert.AreEqual(None, winner);
+        }
     }
 }
