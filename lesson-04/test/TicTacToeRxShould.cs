@@ -3,6 +3,9 @@ using src;
 using System;
 using System.Reactive.Linq;
 
+using static src.Player;
+using static src.Position;
+
 namespace test
 {
     [TestFixture]
@@ -19,24 +22,37 @@ namespace test
         [Test]
         public void FirstPlayerIsPlayerX()
         {
-            Player currentPlayer = Player.None;
+            Player currentPlayer = None;
             _ticTacToeRx.CurrentPlayer.Subscribe(player => currentPlayer = player);
 
             _ticTacToeRx.RequestCurrentPlayer();
 
 
-            Assert.AreEqual(Player.X, currentPlayer);
+            Assert.AreEqual(X, currentPlayer);
         }
 
         [Test]
         public void SecondPlayerIsPlayerO()
         {
-            Player currentPlayer = Player.None;
+            Player currentPlayer = None;
             _ticTacToeRx.CurrentPlayer.Subscribe(player => currentPlayer = player);
 
-            _ticTacToeRx.Place(Position.TopLeft);
+            _ticTacToeRx.Place(TopLeft);
 
-            Assert.AreEqual(Player.O, currentPlayer);
+            Assert.AreEqual(O, currentPlayer);
+        }
+
+        [Test]
+        public void ThirdPlayerIsPlayerX()
+        {
+            Player currentPlayer = None;
+            _ticTacToeRx.CurrentPlayer.Subscribe(player => currentPlayer = player);
+
+            _ticTacToeRx.Place(TopLeft);
+            _ticTacToeRx.Place(TopMiddle);
+
+
+            Assert.AreEqual(X, currentPlayer);
         }
     }
 }

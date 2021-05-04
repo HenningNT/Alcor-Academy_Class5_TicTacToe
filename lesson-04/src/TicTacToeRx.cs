@@ -9,7 +9,7 @@ namespace src
     public class TicTacToeRx
     {
 
-        Player _currentPlayer = Player.X;
+        Player _currentPlayer = X;
 
         public Subject<Player> CurrentPlayer { get; internal set; }
 
@@ -37,13 +37,20 @@ namespace src
         {
             if (_currentPlayer == O)
             {
-                _currentPlayer = X;
+                SetPlayer(X);
                 return;
             }
 
-            _currentPlayer = O;
+            SetPlayer(O);
+
+        }
+
+        private void SetPlayer(Player player)
+        {
+            _currentPlayer = player;
 
             RequestCurrentPlayer();
+
         }
     }
 
