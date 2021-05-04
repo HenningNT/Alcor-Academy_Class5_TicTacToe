@@ -21,11 +21,22 @@ namespace test
         {
             Player currentPlayer = Player.None;
             _ticTacToeRx.CurrentPlayer.Subscribe(player => currentPlayer = player);
-            
-            _ticTacToeRx.Messages.OnNext(Request.CurrentPlayer);
+
+            _ticTacToeRx.RequestCurrentPlayer();
 
 
             Assert.AreEqual(Player.X, currentPlayer);
+        }
+
+        [Test]
+        public void SecondPlayerIsPlayerO()
+        {
+            Player currentPlayer = Player.None;
+            _ticTacToeRx.CurrentPlayer.Subscribe(player => currentPlayer = player);
+
+            _ticTacToeRx.Place(Position.TopLeft);
+
+            Assert.AreEqual(Player.O, currentPlayer);
         }
     }
 }
