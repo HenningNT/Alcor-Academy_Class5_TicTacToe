@@ -31,7 +31,6 @@ namespace test
         [Test]
         public void FirstPlayerIsX()
         {
-            // Assert
             Assert.AreEqual(X, _player);
         }
 
@@ -51,7 +50,6 @@ namespace test
 
             Assert.AreEqual(X, _player);
         }
-
 
         [Test]
         public void NotHaveAWinnerAtStart()
@@ -102,11 +100,9 @@ namespace test
             _messages.OnNext(new PlaceMessage(TopRight)); // X
             _messages.OnNext(new PlaceMessage(TopLeft)); // O
             _messages.OnNext(new PlaceMessage(TopMiddle)); // X
-
             _messages.OnNext(new PlaceMessage(MiddleRight));// O
             _messages.OnNext(new PlaceMessage(MiddleMiddle));// X
             _messages.OnNext(new PlaceMessage(BottomLeft));// O
-
             _messages.OnNext(new PlaceMessage(MiddleLeft));// X
             _messages.OnNext(new PlaceMessage(BottomMiddle));// O
             _messages.OnNext(new PlaceMessage(BottomRight));// X
