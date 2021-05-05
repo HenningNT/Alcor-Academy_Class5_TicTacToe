@@ -8,7 +8,7 @@ namespace src
 {
     public class TicTacToeRx
     {
-
+        private readonly Board _board = new Board();
         Player _currentPlayer = X;
 
         public Subject<Player> CurrentPlayer { get; internal set; }
@@ -27,7 +27,7 @@ namespace src
         private void MessageHandler(Request request)
         {
             if (request == Request.Winner)
-                Winner.OnNext(None);
+                Winner.OnNext(_board.FindWinner());
 
             CurrentPlayer.OnNext(_currentPlayer);
         }
@@ -44,6 +44,13 @@ namespace src
 
         public void Place(Position position)
         {
+            if (_board.IsTaken(position))
+            {
+                return;
+            }
+
+            _board.MarkAt(position, _currentPlayer);
+
             if (_currentPlayer == O)
             {
                 SetPlayer(X);
