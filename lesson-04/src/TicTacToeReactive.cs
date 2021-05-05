@@ -14,7 +14,7 @@ namespace src
 
         public TicTacToeReactive()
         {
-            Messages.Where(msg => msg is ).Subscribe(_ => PublishGameState());
+            Messages.Where(msg => msg is RequestGameState).Subscribe(_ => PublishGameState());
             Messages.Where(msg => msg is PlaceMessage).Subscribe(msg => Place(msg as PlaceMessage));
         }
 
