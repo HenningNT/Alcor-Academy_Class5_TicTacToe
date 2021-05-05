@@ -1,6 +1,6 @@
 ﻿namespace src
 {
-    public class RequestWinnerMessage : GameMessage
+    public class RequestGameState : GameMessage
     {
     }
 }

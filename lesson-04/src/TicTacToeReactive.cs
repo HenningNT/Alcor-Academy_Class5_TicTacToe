@@ -9,13 +9,12 @@ namespace src
     public class TicTacToeReactive
     {
         private readonly Board _board = new Board();
-        public Subject<GameMessage> Messages = new Subject<GameMessage>();
+        public Subject<GameMessage> Messages { get; private set; } = new Subject<GameMessage>();
         private Player _currentPlayer = X;
 
         public TicTacToeReactive()
         {
-            Messages.Where(msg => msg is RequestWinnerMessage).Subscribe(GetWinner);
-            Messages.Where(msg => msg is RequestCurrentPlayer).Subscribe(GetCurrentPlayer);
+            Messages.Where(msg => msg is ).Subscribe(_ => PublishGameState());
             Messages.Where(msg => msg is PlaceMessage).Subscribe(msg => Place(msg as PlaceMessage));
         }
 
@@ -28,14 +27,12 @@ namespace src
 
             _board.MarkAt(message.Position, _currentPlayer);
 
-            GetWinner(null);
+            AlternatePlayer();
 
-            AlternatePLayer();
-
-            GetCurrentPlayer(null);
+            PublishGameState();
         }
 
-        private void AlternatePLayer()
+        private void AlternatePlayer()
         {
             if (_currentPlayer == O)
             {
@@ -46,15 +43,12 @@ namespace src
             _currentPlayer = O;
         }
 
-        private void GetCurrentPlayer(GameMessage obj)
-        {
-            Messages.OnNext(new CurrentPlayerMessage(_currentPlayer));
-        }
-
-        private void GetWinner(GameMessage obj)
+        private void PublishGameState()
         {
             var winner = _board.FindWinner();
             Messages.OnNext(new WinnerMessage(winner));
+
+            Messages.OnNext(new CurrentPlayerMessage(_currentPlayer));
         }
     }
 }

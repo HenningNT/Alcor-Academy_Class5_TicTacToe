@@ -3,6 +3,7 @@ using src;
 using System;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+
 using static src.Player;
 using static src.Position;
 
@@ -18,19 +19,18 @@ namespace test
         [SetUp]
         public void SetUp()
         {
-            
             var ticTacToeReactive = new TicTacToeReactive();
             _messages = ticTacToeReactive.Messages;
+
             _messages.Where(msg => msg is CurrentPlayerMessage).Subscribe(wnr => _player = ((CurrentPlayerMessage)wnr).CurrentPlayer);
             _messages.Where(msg => msg is WinnerMessage).Subscribe(wnr => _winner = ((WinnerMessage)wnr).Winner);
+
+            _messages.OnNext(new RequestGameState());
         }
 
         [Test]
         public void FirstPlayerIsX()
         {
-            //Act
-            _messages.OnNext(new RequestCurrentPlayer());
-
             // Assert
             Assert.AreEqual(X, _player);
         }
@@ -56,8 +56,6 @@ namespace test
         [Test]
         public void NotHaveAWinnerAtStart()
         {
-            _messages.OnNext(new RequestWinnerMessage()) ;
-
             Assert.AreEqual(None, _winner);
         }
 
