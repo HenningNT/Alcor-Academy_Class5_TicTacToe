@@ -1,7 +1,7 @@
-﻿using src;
-using System;
+﻿using System;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+
 using static src.Player;
 
 namespace src

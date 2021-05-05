@@ -1,6 +1,4 @@
-﻿using src;
-
-namespace src
+﻿namespace src
 {
     public class RequestCurrentPlayer : GameMessage
     {
